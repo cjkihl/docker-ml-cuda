@@ -29,10 +29,10 @@ RUN apt-get update --yes && \
 # 	ln -s /usr/bin/python3.9 /usr/bin/python && \
 # 	rm /usr/bin/python3 && \
 # 	ln -s /usr/bin/python3.9 /usr/bin/python3
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python get-pip.py
+# RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+# RUN python get-pip.py
 # RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-RUN pip install -U jupyterlab ipywidgets jupyter-archive
+RUN pip3 install -U jupyterlab ipywidgets jupyter-archive
 RUN jupyter nbextension enable --py widgetsnbextension
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
