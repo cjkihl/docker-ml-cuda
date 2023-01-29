@@ -24,7 +24,7 @@ RUN apt-get update --yes && \
     openssh-server\
     python3\
     python3-venv
-# RUN add-apt-repository ppa:deadsnakes/ppa
+RUN add-apt-repository ppa:deadsnakes/ppa
 # RUN apt install python3.9 -y --no-install-recommends && \
 # 	ln -s /usr/bin/python3.9 /usr/bin/python && \
 # 	rm /usr/bin/python3 && \
