@@ -20,11 +20,11 @@ RUN apt-get update --yes && \
     curl\
     git\
     bash\
-    software-properties-common\
+    # software-properties-common\
     openssh-server\
     python3\
     python3-venv
-RUN add-apt-repository ppa:deadsnakes/ppa
+# RUN add-apt-repository ppa:deadsnakes/ppa
 # RUN apt install python3.9 -y --no-install-recommends && \
 # 	ln -s /usr/bin/python3.9 /usr/bin/python && \
 # 	rm /usr/bin/python3 && \
@@ -32,8 +32,8 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 # RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 # RUN python get-pip.py
 # RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-RUN pip3 install -U jupyterlab ipywidgets jupyter-archive
-RUN jupyter nbextension enable --py widgetsnbextension
+# RUN pip3 install -U jupyterlab ipywidgets jupyter-archive
+# RUN jupyter nbextension enable --py widgetsnbextension
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
