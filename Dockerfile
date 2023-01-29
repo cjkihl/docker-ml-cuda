@@ -1,5 +1,5 @@
-ARG BASE_IMAGE=nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04
-# ARG BASE_IMAGE=ubuntu:20.04
+# ARG BASE_IMAGE=nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04
+ARG BASE_IMAGE=ubuntu:20.04
 
 FROM ${BASE_IMAGE} as dev-base
 
@@ -29,11 +29,11 @@ RUN apt-get update --yes && \
 # 	ln -s /usr/bin/python3.9 /usr/bin/python && \
 # 	rm /usr/bin/python3 && \
 # 	ln -s /usr/bin/python3.9 /usr/bin/python3
-# RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-# RUN python get-pip.py
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python get-pip.py
 # RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-# RUN pip install -U jupyterlab ipywidgets jupyter-archive
-# RUN jupyter nbextension enable --py widgetsnbextension
+RUN pip install -U jupyterlab ipywidgets jupyter-archive
+RUN jupyter nbextension enable --py widgetsnbextension
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
