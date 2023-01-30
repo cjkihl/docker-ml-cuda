@@ -14,8 +14,6 @@ then
     service ssh start
 fi
 
-sleep infinity
-
 # if [[ $JUPYTER_PASSWORD ]]
 # then
 #     echo "starting jupyter"
@@ -24,3 +22,17 @@ sleep infinity
 # else
 #     sleep infinity
 # fi
+
+if [[ $JUPYTER_PASSWORD ]]
+then
+    ln -sf /examples /workspace
+    ln -sf /root/welcome.ipynb /workspace
+
+    cd /
+    jupyter lab --allow-root --no-browser --port=8888 --ip=* \
+        --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' \
+        --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace
+    echo "Jupyter Lab Started"
+fi
+
+sleep infinity

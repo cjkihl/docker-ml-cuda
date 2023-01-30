@@ -17,15 +17,18 @@ RUN apt-get update --yes && \
     curl\
     git\
     bash\
-    # software-properties-common\
+    nano\
     openssh-server\
     python3\
     python3-venv\
+    python3-pip\
     libglib2.0-0\
     libsm6\
     libxrender1\
     libxext6\
     ffmpeg
+
+RUN pip3 install jupyterlab
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
@@ -37,7 +40,12 @@ WORKDIR /workspace/stable-diffusion-webui
 RUN git pull
 
 ADD webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
-# RUN ./webui.sh -f 1 
+
+#WORKDIR /workspace/stable-diffusion-webui/models/Stable-diffusion
+
+RUN wget -O models/Stable-diffusion/openjourney.ckpt https://civitai.com/api/download/models/96
+
+# WORKDIR /workspace
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
