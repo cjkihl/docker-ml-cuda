@@ -7,12 +7,9 @@ WORKDIR /
 
 RUN mkdir /workspace
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND noninteractive\
     SHELL=/bin/bash
 RUN apt-get update --yes && \
-    # - apt-get upgrade is run to patch known vulnerabilities in apt-get packages as
-    #   the ubuntu base image is rebuilt too seldom sometimes (less than once a month)
     apt-get upgrade --yes && \
     apt install --yes --no-install-recommends\
     git\
@@ -23,20 +20,28 @@ RUN apt-get update --yes && \
     # software-properties-common\
     openssh-server\
     python3\
-    python3-venv
-# RUN add-apt-repository ppa:deadsnakes/ppa
-# RUN apt install python3.9 -y --no-install-recommends && \
-# 	ln -s /usr/bin/python3.9 /usr/bin/python && \
-# 	rm /usr/bin/python3 && \
-# 	ln -s /usr/bin/python3.9 /usr/bin/python3
-# RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-# RUN python get-pip.py
-# RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-# RUN pip3 install -U jupyterlab ipywidgets jupyter-archive
-# RUN jupyter nbextension enable --py widgetsnbextension
+    python3-venv\
+    libglib2.0-0\
+    libsm6\
+    libxrender1\
+    libxext6\
+    ffmpeg
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+WORKDIR /workspace
+
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+WORKDIR /workspace/stable-diffusion-webui
+RUN git pull
+
+ADD webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
+RUN ./webui.sh -f 1 
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+ENV PATH="${PATH}:/workspace/venv"
 
 ADD start.sh /
 
