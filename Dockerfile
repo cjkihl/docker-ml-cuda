@@ -37,7 +37,7 @@ WORKDIR /workspace/stable-diffusion-webui
 RUN git pull
 
 ADD webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
-RUN ./webui.sh -f 1 
+# RUN ./webui.sh -f 1 
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
