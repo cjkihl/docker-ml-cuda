@@ -45,7 +45,12 @@ ADD webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 
 RUN wget -O models/Stable-diffusion/openjourney.ckpt https://civitai.com/api/download/models/96
 
-# WORKDIR /workspace
+WORKDIR /workspace/stable-diffusion-webui/extensions
+
+RUN git clone https://github.com/d8ahazard/sd_dreambooth_extension.git
+RUN git clone https://github.com/AlUlkesh/stable-diffusion-webui-images-browser.git
+
+WORKDIR /workspace
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
