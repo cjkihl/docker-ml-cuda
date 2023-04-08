@@ -1,16 +1,16 @@
-#!/bin/bash
+# #!/bin/bash
 #########################################################
 # Uncomment and change the variables below to your need:#
 #########################################################
 
 # Install directory without trailing slash
-#install_dir="/home/$(whoami)"
+install_dir="/workspace"
 
 # Name of the subdirectory
 #clone_dir="stable-diffusion-webui"
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
-export COMMANDLINE_ARGS="-f 1 --port 3000 --xformers --opt-split-attention --listen --enable-insecure-extension-access"
+export COMMANDLINE_ARGS="--port 3000 --api --xformers --listen --enable-insecure-extension-access"
 
 # python3 executable
 #python_cmd="python3"
@@ -19,7 +19,7 @@ export COMMANDLINE_ARGS="-f 1 --port 3000 --xformers --opt-split-attention --lis
 #export GIT="git"
 
 # python3 venv without trailing slash (defaults to ${install_dir}/${clone_dir}/venv)
-venv_dir="/workspace/venv"
+# venv_dir="/workspace/venv"
 
 # script to launch to start the app
 #export LAUNCH_SCRIPT="launch.py"
