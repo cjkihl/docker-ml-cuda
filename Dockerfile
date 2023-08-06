@@ -28,6 +28,7 @@ RUN apt update --yes && \
 RUN update-ca-certificates
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.10-dev python3.10-venv -y --no-install-recommends
+# Create Symbolic links for python
 RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
     rm /usr/bin/python3 && \
     ln -s /usr/bin/python3.10 /usr/bin/python3
@@ -47,11 +48,6 @@ RUN cd /workspace/stable-diffusion-webui/ && \
     pip cache purge && \
     apt clean
 
-RUN mv /workspace/venv /venv && \
-    mv /workspace/stable-diffusion-webui /stable-diffusion-webui
-
-COPY pre_start.sh /pre_start.sh
-COPY relauncher.py webui-user.sh /stable-diffusion-webui/
 
 # NGINX Proxy
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -62,6 +58,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 # Start Scripts
 COPY pre_start.sh /pre_start.sh
+COPY relauncher.py webui-user.sh /stable-diffusion-webui/
 COPY start.sh /start.sh
 RUN chmod +x /start.sh && chmod +x /pre_start.sh
 
