@@ -9,8 +9,6 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu
 ENV PATH="/workspace/venv/bin:$PATH"
 ENV TORCH_COMMAND="pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
 
-WORKDIR /workspace
-
 # Set up shell and update packages
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -28,22 +26,30 @@ RUN apt update --yes && \
 RUN update-ca-certificates
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.10-dev python3.10-venv -y --no-install-recommends
+
 # Create Symbolic links for python
 RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
     rm /usr/bin/python3 && \
     ln -s /usr/bin/python3.10 /usr/bin/python3
+
+# Install PIP    
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.py && \
     pip install -U --no-cache-dir pip
+
+# Activate venv
 RUN python -m venv /workspace/venv && \
     export PATH="/workspace/venv/bin:$PATH"
+
+# Install Jupyter lab
 RUN pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
-RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
 
-RUN mv /workspace/install-automatic.py /workspace/stable-diffusion-webui/ && \
-    mv /workspace/requirements.txt /workspace/stable-diffusion-webui/requirements.txt && \
-    mv /workspace/requirements_versions.txt /workspace/stable-diffusion-webui/requirements_versions.txt
+# 
+RUN mv /install-automatic.py /workspace/stable-diffusion-webui
+RUN mv /requirements.txt /workspace/stable-diffusion-webui
+RUN mv /requirements_versions.txt /workspace/stable-diffusion-webui
+
 RUN cd /workspace/stable-diffusion-webui/ && python -m install-automatic --skip-torch-cuda-test
-
 RUN cd /workspace/stable-diffusion-webui/ && \
     pip cache purge && \
     apt clean
@@ -58,7 +64,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 # Start Scripts
 COPY pre_start.sh /pre_start.sh
-COPY relauncher.py webui-user.sh /stable-diffusion-webui/
+COPY relauncher.py webui-user.sh /workspace/stable-diffusion-webui/
 COPY start.sh /start.sh
 RUN chmod +x /start.sh && chmod +x /pre_start.sh
 
