@@ -36,13 +36,13 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.p
 RUN python -m venv /workspace/venv && \
     export PATH="/workspace/venv/bin:$PATH"
 RUN pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
-RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-    cd stable-diffusion-webui
-RUN mv /workspace/install-automatic.py /workspace/stable-diffusion-webui/ && \
-    mv /workspace/requirements.txt ./requirements.txt && \
-    mv /workspace/requirements_versions.txt ./requirements_versions.txt
+RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 
-RUN python -m install-automatic --skip-torch-cuda-test
+RUN mv /workspace/install-automatic.py /workspace/stable-diffusion-webui/ && \
+    mv /workspace/requirements.txt /workspace/stable-diffusion-webui/requirements.txt && \
+    mv /workspace/requirements_versions.txt /workspace/stable-diffusion-webui/requirements_versions.txt
+RUN cd /workspace/stable-diffusion-webui/ && python -m install-automatic --skip-torch-cuda-test
+
 RUN cd /workspace/stable-diffusion-webui/ && \
     pip cache purge && \
     apt clean
