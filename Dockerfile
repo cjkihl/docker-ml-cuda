@@ -59,7 +59,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 # Start Scripts
 COPY pre_start.sh /pre_start.sh
-COPY start.sh /
+COPY start.sh /start.sh
 RUN chmod +x /start.sh && chmod +x /pre_start.sh
 
 SHELL ["/bin/bash", "--login", "-c"]
