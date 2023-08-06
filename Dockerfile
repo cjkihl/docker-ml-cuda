@@ -16,6 +16,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy the Python dependencies
 COPY requirements*.txt .
+COPY install-automatic.py ./
 
 # Package installation and setup
 RUN apt update --yes && \
