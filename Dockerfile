@@ -23,28 +23,30 @@ RUN apt update --yes && \
     apt install --yes --no-install-recommends \
     git openssh-server libglib2.0-0 libsm6 libgl1 libxrender1 libxext6 ffmpeg wget curl psmisc rsync vim nginx \
     pkg-config libffi-dev libcairo2 libcairo2-dev libgoogle-perftools4 libtcmalloc-minimal4 apt-transport-https \
-    software-properties-common ca-certificates && \
-    update-ca-certificates && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt install python3.10-dev python3.10-venv -y --no-install-recommends && \
-    ln -s /usr/bin/python3.10 /usr/bin/python && \
+    software-properties-common ca-certificates
+RUN update-ca-certificates
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt install python3.10-dev python3.10-venv -y --no-install-recommends
+RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
     rm /usr/bin/python3 && \
-    ln -s /usr/bin/python3.10 /usr/bin/python3 && \
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.py && \
-    pip install -U --no-cache-dir pip && \
-    python -m venv /workspace/venv && \
-    export PATH="/workspace/venv/bin:$PATH" && \
-    pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets && \
-    git clone --branch v.1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-    cd stable-diffusion-webui && \
-    mv /workspace/install-automatic.py /workspace/stable-diffusion-webui/ && \
+    ln -s /usr/bin/python3.10 /usr/bin/python3
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.py && \
+    pip install -U --no-cache-dir pip
+RUN python -m venv /workspace/venv && \
+    export PATH="/workspace/venv/bin:$PATH"
+RUN pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
+RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+    cd stable-diffusion-webui
+RUN mv /workspace/install-automatic.py /workspace/stable-diffusion-webui/ && \
     mv /workspace/requirements.txt ./requirements.txt && \
-    mv /workspace/requirements_versions.txt ./requirements_versions.txt && \
-    python -m install-automatic --skip-torch-cuda-test && \
-    cd /workspace/stable-diffusion-webui/ && \
+    mv /workspace/requirements_versions.txt ./requirements_versions.txt
+
+RUN python -m install-automatic --skip-torch-cuda-test
+RUN cd /workspace/stable-diffusion-webui/ && \
     pip cache purge && \
-    apt clean && \
-    mv /workspace/venv /venv && \
+    apt clean
+
+RUN mv /workspace/venv /venv && \
     mv /workspace/stable-diffusion-webui /stable-diffusion-webui
 
 COPY pre_start.sh /pre_start.sh
