@@ -5,3 +5,7 @@ services:
     ports:
       - "3001:3001"
       - "8888:8888"
+    volumes:
+      - sd:/workspace
+volumes:
+  sd:

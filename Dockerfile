@@ -54,6 +54,10 @@ RUN cd /workspace/stable-diffusion-webui/ && \
     pip cache purge && \
     apt clean
 
+# Move the venv and the webui out of the workspace
+# This is needed since the workspace is mounted to the host
+RUN mv /workspace/venv /venv && \
+    mv /workspace/stable-diffusion-webui /stable-diffusion-webui
 
 # NGINX Proxy
 COPY nginx.conf /etc/nginx/nginx.conf
