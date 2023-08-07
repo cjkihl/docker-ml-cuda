@@ -68,7 +68,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 # Start Scripts
 COPY pre_start.sh /pre_start.sh
-COPY relauncher.py webui-user.sh /workspace/stable-diffusion-webui/
+COPY relauncher.py webui-user.sh /stable-diffusion-webui/
 COPY start.sh /start.sh
 RUN chmod +x /start.sh && chmod +x /pre_start.sh
 
