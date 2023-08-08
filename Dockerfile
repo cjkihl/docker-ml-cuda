@@ -20,7 +20,7 @@ COPY install-automatic.py ./
 RUN apt update --yes && \
     apt upgrade --yes && \
     apt install --yes --no-install-recommends \
-    git lsof openssh-server libglib2.0-0 libsm6 libgl1 libxrender1 libxext6 ffmpeg wget curl psmisc rsync vim nginx \
+    git openssh-server libglib2.0-0 libsm6 libgl1 libxrender1 libxext6 ffmpeg wget curl psmisc rsync vim nginx unzip \
     pkg-config libffi-dev libcairo2 libcairo2-dev libgoogle-perftools4 libtcmalloc-minimal4 apt-transport-https \
     software-properties-common ca-certificates
 RUN update-ca-certificates
@@ -36,10 +36,17 @@ RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \python get-pip.py && \
     pip install -U --no-cache-dir pip
 
+# Install the AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    rm awscliv2.zip && \
+    rm -rf aws
+
 # Install lsof, git-lfs and gdown
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt install git-lfs && \
-    pip install -U --no-cache-dir gdown
+#RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+#    apt install git-lfs && \
+#    pip install -U --no-cache-dir gdown
 
 # Activate venv
 RUN python -m venv /workspace/venv && \
