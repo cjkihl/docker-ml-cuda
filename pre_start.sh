@@ -11,6 +11,14 @@ if [ -n "$MODEL_NAME" ] && [ -n "$MODEL_URL" ] && [ ! -f "/workspace/stable-diff
     wget -O "/workspace/stable-diffusion-webui/models/Stable-diffusion/$MODEL_NAME" "$MODEL_URL"
 fi
 
+# Sync the models, embeddings, and lora folders from S3
+DRY_RUN="" # "--dryrun"
+PARAMS=-"-exclude \"*\" --include \"*\" --delete --endpoint-url $S3_ENDPOINT $DRY_RUN"
+
+aws s3 sync s3://stable-diffusion/1.5/models "/workspace/stable-diffusion-webui/models/Stable-diffusion" $PARAMS
+aws s3 sync s3://stable-diffusion/1.5/embeddings "/workspace/stable-diffusion-webui/embeddings"  $PARAMS
+aws s3 sync s3://stable-diffusion/1.5/lora "/workspace/stable-diffusion-webui/models/Lora" $PARAMS
+
 if [[ $RUNPOD_STOP_AUTO ]]
 then
     echo "Skipping auto-start of webui"
