@@ -55,7 +55,7 @@ RUN python -m venv /workspace/venv && \
 # Install Jupyter lab
 RUN pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
 RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
-
+RUN git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git /workspace/stable-diffusion-webui/extensions/ultimate-upscale-for-automatic1111 
 # 
 RUN mv /install-automatic.py /workspace/stable-diffusion-webui
 RUN mv /requirements.txt /workspace/stable-diffusion-webui
@@ -80,7 +80,7 @@ COPY README.md /usr/share/nginx/html/README.md
 
 # Start Scripts
 COPY pre_start.sh /pre_start.sh
-COPY relauncher.py webui-user.sh /stable-diffusion-webui/
+COPY relauncher.py webui-user.sh config.json /stable-diffusion-webui/
 COPY start.sh /start.sh
 RUN chmod +x /start.sh && chmod +x /pre_start.sh
 
