@@ -18,6 +18,7 @@ PARAMS=-"-exclude \"*\" --include \"*\" --delete --endpoint-url $S3_ENDPOINT $DR
 aws s3 sync s3://stable-diffusion/1.5/models "/workspace/stable-diffusion-webui/models/Stable-diffusion" $PARAMS
 aws s3 sync s3://stable-diffusion/1.5/embeddings "/workspace/stable-diffusion-webui/embeddings"  $PARAMS
 aws s3 sync s3://stable-diffusion/1.5/lora "/workspace/stable-diffusion-webui/models/Lora" $PARAMS
+aws s3 sync s3://stable-diffusion/1.5/controlnet "/workspace/stable-diffusion-webui/extensions/sd-webui-controlnet/models" $PARAMS
 
 if [[ $RUNPOD_STOP_AUTO ]]
 then

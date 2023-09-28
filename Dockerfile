@@ -54,12 +54,18 @@ RUN python -m venv /workspace/venv && \
 
 # Install Jupyter lab
 RUN pip install -U --no-cache-dir jupyterlab jupyterlab_widgets ipykernel ipywidgets
-RUN git clone --branch v1.5.1 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
-RUN git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git /workspace/stable-diffusion-webui/extensions/ultimate-upscale-for-automatic1111 
-# 
+
+# Install Automatic 1111 with extensions
+RUN git clone --branch v1.6.0 --single-branch https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
+RUN git clone --branch master --single-branch https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git /workspace/stable-diffusion-webui/extensions/ultimate-upscale-for-automatic1111 
+RUN git clone --branch main --single-branch https://github.com/Mikubill/sd-webui-controlnet.git /workspace/stable-diffusion-webui/extensions/sd-webui-controlnet 
+ 
 RUN mv /install-automatic.py /workspace/stable-diffusion-webui
 RUN mv /requirements.txt /workspace/stable-diffusion-webui
 RUN mv /requirements_versions.txt /workspace/stable-diffusion-webui
+
+# Xformers
+RUN pip install xformers
 
 RUN cd /workspace/stable-diffusion-webui/ && python -m install-automatic --skip-torch-cuda-test
 RUN cd /workspace/stable-diffusion-webui/ && \
