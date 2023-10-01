@@ -7,8 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV SHELL=/bin/bash
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu
 ENV PATH="/workspace/venv/bin:$PATH"
-ENV TORCH_COMMAND="pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
-
+ENV TORCH_COMMAND="pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2+cu118 --index-url https://download.pytorch.org/whl/cu118"
 # Set up shell and update packages
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
