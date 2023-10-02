@@ -1,7 +1,5 @@
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
-ARG WEBUI_VERSION=v1.5.1
-ARG DREAMBOOTH_VERSION=1.0.14
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV SHELL=/bin/bash
@@ -19,7 +17,7 @@ COPY install-automatic.py ./
 RUN apt update --yes && \
     apt upgrade --yes && \
     apt install --yes --no-install-recommends \
-    git openssh-server libglib2.0-0 libsm6 libgl1 libxrender1 libxext6 ffmpeg wget curl psmisc rsync vim nginx unzip \
+    git openssh-server libglib2.0-0 libsm6 libgl1 libxrender1 libxext6 ffmpeg wget curl psmisc rsync vim nginx \
     pkg-config libffi-dev libcairo2 libcairo2-dev libgoogle-perftools4 libtcmalloc-minimal4 apt-transport-https \
     software-properties-common ca-certificates
 RUN update-ca-certificates
@@ -61,7 +59,6 @@ RUN git clone --branch main --single-branch https://github.com/Mikubill/sd-webui
  
 RUN mv /install-automatic.py /workspace/stable-diffusion-webui
 RUN mv /requirements.txt /workspace/stable-diffusion-webui
-RUN mv /requirements_versions.txt /workspace/stable-diffusion-webui
 
 RUN cd /workspace/stable-diffusion-webui/ && python -m install-automatic --skip-torch-cuda-test
 RUN cd /workspace/stable-diffusion-webui/ && \
