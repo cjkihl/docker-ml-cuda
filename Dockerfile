@@ -60,7 +60,8 @@ RUN git clone --branch main --single-branch https://github.com/Mikubill/sd-webui
 RUN mv /install-automatic.py /workspace/stable-diffusion-webui
 RUN mv /requirements.txt /workspace/stable-diffusion-webui
 
-RUN cd /workspace/stable-diffusion-webui/ && python -m install-automatic --skip-torch-cuda-test && \
+RUN cd /workspace/stable-diffusion-webui && \
+    python -m install-automatic --skip-torch-cuda-test && \
     pip cache purge && \
     apt clean
 
