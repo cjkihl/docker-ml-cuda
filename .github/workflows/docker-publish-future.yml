@@ -22,5 +22,6 @@ jobs:
       - name: Build and tag Docker image
         uses: docker/build-push-action@v3
         with:
+          context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml-cuda:future
